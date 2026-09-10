@@ -199,8 +199,8 @@ public abstract partial class SharedSurgerySystem
         // Right now the bonus is based off the body's total damage, maybe we could make it based off each part in the future.
         var bonus = ent.Comp.HealMultiplier * _wounds.GetWoundableSeverityPoint(args.Part, damageGroup: ent.Comp.MainGroup);
 
-        if (_mobState.IsDead(args.Body))
-            bonus *= 0.2;
+        //if (_mobState.IsDead(args.Body)) // Ratbite Edit: This is dumb.
+        //    bonus *= 0.2;
 
         var adjustedDamage = new DamageSpecifier(ent.Comp.Damage);
 
@@ -211,7 +211,7 @@ public abstract partial class SharedSurgerySystem
                 adjustedDamage.DamageDict[type] = current - bonus;
         }
 
-        var ev = new SurgeryStepDamageEvent(args.User, args.Body, args.Part, args.Surgery, adjustedDamage, 0.5f);
+        var ev = new SurgeryStepDamageEvent(args.User, args.Body, args.Part, args.Surgery, adjustedDamage, 1f); // Ratbite: 0.5->1 PartMultiplier for wound tending
         RaiseLocalEvent(args.Body, ref ev);
     }
 
